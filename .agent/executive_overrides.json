@@ -1,0 +1,90 @@
+{
+  "version": "1",
+  "approved_by": "furre-executive-delegated-auto-triage",
+  "overrides": [
+    {
+      "override_id": "exec-override-anytype-ts-giskard-gh-secrets-build-001",
+      "status": "active",
+      "scope": "finding",
+      "tool": "giskard",
+      "rule_id": "hardcoded_secret_literal",
+      "file_suffix": "/.github/workflows/build.yml",
+      "line": 122,
+      "approved_by": "furre-executive-delegated-auto-triage",
+      "reason": "GitHub Actions workflow references `${{ secrets.* }}` placeholders; not hardcoded credentials.",
+      "evidence": "update-ci.sh args use GitHub Actions secrets interpolation."
+    },
+    {
+      "override_id": "exec-override-anytype-ts-giskard-gh-secrets-nightly-001",
+      "status": "active",
+      "scope": "finding",
+      "tool": "giskard",
+      "rule_id": "hardcoded_secret_literal",
+      "file_suffix": "/.github/workflows/nightly.yml",
+      "line": 334,
+      "approved_by": "furre-executive-delegated-auto-triage",
+      "reason": "GitHub Actions workflow references `${{ secrets.* }}` placeholders; not hardcoded credentials.",
+      "evidence": "nightly update-ci.sh args use GitHub Actions secrets interpolation."
+    },
+    {
+      "override_id": "exec-override-anytype-ts-codeql-gh-secrets-build-001",
+      "status": "active",
+      "scope": "finding",
+      "tool": "codeql",
+      "rule_id": "codeql/hardcoded-credentials",
+      "file_suffix": "/.github/workflows/build.yml",
+      "line": 122,
+      "approved_by": "furre-executive-delegated-auto-triage",
+      "reason": "False positive on GitHub Actions `${{ secrets.* }}` placeholders in CI workflow.",
+      "evidence": "Workflow secret interpolation only."
+    },
+    {
+      "override_id": "exec-override-anytype-ts-codeql-gh-secrets-nightly-001",
+      "status": "active",
+      "scope": "finding",
+      "tool": "codeql",
+      "rule_id": "codeql/hardcoded-credentials",
+      "file_suffix": "/.github/workflows/nightly.yml",
+      "line": 334,
+      "approved_by": "furre-executive-delegated-auto-triage",
+      "reason": "False positive on GitHub Actions `${{ secrets.* }}` placeholders in CI workflow.",
+      "evidence": "Workflow secret interpolation only."
+    },
+    {
+      "override_id": "exec-override-anytype-ts-codeql-build-workflow-cd-relative-001",
+      "status": "active",
+      "scope": "finding",
+      "tool": "codeql",
+      "rule_id": "codeql/path-traversal-risk",
+      "file_suffix": "/.github/workflows/build.yml",
+      "line": 238,
+      "approved_by": "furre-executive-delegated-auto-triage",
+      "reason": "Static CI workflow `cd ../dist/` path in build script block; not user-controlled runtime path traversal.",
+      "evidence": "GitHub Actions workflow shell block."
+    },
+    {
+      "override_id": "exec-override-anytype-ts-semgrep-build-hook-exec-001",
+      "status": "active",
+      "scope": "finding",
+      "tool": "semgrep",
+      "rule_id": "antigravity.rules.ag.js.child-process-exec",
+      "file_suffix": "/electron/hook/util.js",
+      "line": 7,
+      "approved_by": "furre-executive-delegated-auto-triage",
+      "reason": "Build-signing helper executes internally constructed command for notarization/signing in packaging hook; not exposed to runtime user input.",
+      "evidence": "Only observed caller electron/hook/sign.js builds command from CI env vars and context.path."
+    },
+    {
+      "override_id": "exec-override-anytype-ts-semgrep-openpath-windows-shell-001",
+      "status": "active",
+      "scope": "finding",
+      "tool": "semgrep",
+      "rule_id": "antigravity.rules.ag.js.child-process-exec",
+      "file_suffix": "/electron/js/api.js",
+      "line": 416,
+      "approved_by": "furre-executive-delegated-auto-triage",
+      "reason": "Desktop shell open helper on Windows uses quoted normalized path with cmd.exe; functional platform opener, not arbitrary command execution endpoint.",
+      "evidence": "openPath branches to execFile on macOS/Linux and quoted `start` command on Windows."
+    }
+  ]
+}
